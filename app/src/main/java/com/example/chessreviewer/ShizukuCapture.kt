@@ -75,7 +75,7 @@ class ShizukuCapture(private val context: Context) {
         !isRunning() -> "Shizuku is installed but not running. Open Shizuku and start it (wireless debugging), then come back."
         !hasPermission() -> "Shizuku is running. Tap 'Grant Shizuku access' so this app can use it."
         uid() == 0 -> "Shizuku is ready and running as root (uid 0)."
-        uid() == 2000 -> "Shizuku is ready as shell (uid 2000). Protected screens are readable on Android 12 and newer."
+        uid() == 2000 -> "Shizuku is ready as shell (uid 2000). Protected screens are readable on Android 11 and newer."
         else -> "Shizuku is ready (uid " + uid() + ")."
     }
 

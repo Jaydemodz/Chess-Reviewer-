@@ -18,7 +18,7 @@ import java.io.InputStreamReader
  *  * root, by running the stock `screencap` as uid 0;
  *  * Shizuku, by asking WindowManagerService for a display capture with secure layers in it
  *    from Shizuku's privileged process (see [SecureShotService]). On a non-rooted phone that
- *    is the whole point: no root, no Xposed, and it works from Android 12 up.
+ *    is the whole point: no root, no Xposed, and it works from Android 11 up.
  *
  * Everything here blocks, so call [grab] from a background thread.
  */

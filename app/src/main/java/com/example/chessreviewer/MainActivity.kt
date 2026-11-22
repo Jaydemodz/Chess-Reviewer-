@@ -64,7 +64,7 @@ class MainActivity : Activity() {
             "The app reads those anyway when it can: through root if the phone is rooted, or through " +
             "Shizuku if it is not. For Shizuku, install Shizuku, start it over wireless debugging " +
             "(Android 11 and newer), then tap 'Grant Shizuku access' here. Protected screens are " +
-            "readable that way on Android 12 and newer; on older versions only root can read them.\n\n" +
+            "readable that way on Android 11 and newer; on older versions only root can read them.\n\n" +
             "Stockfish plays at full strength by default. The Elo button on the floating panel, " +
             "and the strength slider below, set it to a lower level instead; the choice sticks " +
             "and both the overlay and this screen use it."
