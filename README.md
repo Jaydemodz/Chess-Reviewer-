@@ -36,12 +36,30 @@ layers out, so those windows come back black. The app gets the real pixels two w
 | Route | Needs | Works on |
 | --- | --- | --- |
 | Root | a working `su` (Magisk, KernelSU, APatch) | every Android version here |
-| Shizuku | Shizuku installed, running, and access granted | Android 12 and newer |
+| Shizuku | Shizuku installed, running, and access granted | Android 11 and newer |
 
 The Shizuku route runs `SecureShotService` in a process Shizuku starts with the shell uid
-(2000), calls `WindowManagerService.captureDisplay` with
+(2000), asks the system for a display capture with
 `ScreenCapture.CaptureArgs.Builder#setCaptureSecureLayers(true)`, and hands the frame back to
 the app in chunks over AIDL. No root, no Xposed or LSPosed module.
+
+### One capture file, every Android release
+
+The class that can take a secure screenshot changed between releases, so `DisplayCapture.kt`
+holds one route per generation and picks between them on the running phone. All of it is
+hidden API reached by reflection, so the file compiles once and probes the phone it is on.
+
+| Android | Route |
+| --- | --- |
+| 14 and newer | `WindowManagerService.captureDisplay(CaptureArgs, ScreenCaptureListener)`, through `android.window.ScreenCapture` |
+| 12 and 13 | the same `ScreenCapture` call, with the display id first: `captureDisplay(int, CaptureArgs, listener)` |
+| 11, and the Android 13 fallback | `SurfaceControl.captureDisplay(DisplayCaptureArgs)` on SurfaceFlinger's display token |
+| anything left | the stock `screencap` binary, which is not secure-aware but always exists |
+
+A route that this build does not declare, or that refuses the call, is recorded and skipped;
+the next one is tried and the error text from all of them comes back in the panel when the
+frame is still black. That is what makes one APK work from Android 11 to Android 15.
+
 
 ### Setting up Shizuku
 
